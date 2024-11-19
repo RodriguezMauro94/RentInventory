@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Card
+import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -27,10 +28,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.maurosergiorodriguez.rentinventoryapp.R
 import com.maurosergiorodriguez.rentinventoryapp.inventorylist.ui.model.ItemModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,37 +60,19 @@ fun InventoryListScreen() {
                         .fillMaxHeight()
                         .padding(horizontal = 16.dp, vertical = 12.dp)
                 ) {
-                    TextButton(onClick = {
+                    DrawerItem(stringResource(R.string.state_in_use)) {
                         //TODO load In Use Items
-                    }) {
-                        Text(
-                            "In Use",
-                            modifier = Modifier.padding(8.dp),
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.SemiBold
-                        )
+                        closeDrawer(coroutineScope, drawerState)
                     }
 
-                    TextButton(onClick = {
+                    DrawerItem(stringResource(R.string.state_stock)) {
                         //TODO load Stock Items
-                    }) {
-                        Text(
-                            "Stock",
-                            modifier = Modifier.padding(8.dp),
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.SemiBold
-                        )
+                        closeDrawer(coroutineScope, drawerState)
                     }
 
-                    TextButton(onClick = {
+                    DrawerItem(stringResource(R.string.state_wasted)) {
                         //TODO load Wasted Items
-                    }) {
-                        Text(
-                            "Wasted Items",
-                            modifier = Modifier.padding(8.dp),
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.SemiBold
-                        )
+                        closeDrawer(coroutineScope, drawerState)
                     }
                 }
             }
@@ -104,7 +90,7 @@ fun InventoryListScreen() {
                                 drawerState.open()
                             }
                         }) {
-                            Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menu")
+                            Icon(imageVector = Icons.Filled.Menu, contentDescription = stringResource(R.string.menu))
                         }
                     }
                 )
@@ -113,7 +99,7 @@ fun InventoryListScreen() {
                 FloatingActionButton(onClick = {
                     //TODO goto add item screen
                 }) {
-                    Icon(imageVector = Icons.Filled.Add, contentDescription = "Add Item")
+                    Icon(imageVector = Icons.Filled.Add, contentDescription = stringResource(R.string.add_item))
                 }
             }
         ) { padding ->
@@ -126,23 +112,11 @@ fun InventoryListScreen() {
     }
 }
 
-@Composable
-fun ItemCard(item: ItemModel) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 8.dp)
-            .pointerInput(Unit) {
-                detectTapGestures(onLongPress = {
-                    //TODO show edit/remove dialog
-                })
-            }
-    ) {
-        Column(
-            modifier = Modifier.padding(8.dp)
-        ) {
-            Text(text = item.title, fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
-            Text(text = item.brand, fontSize = 12.sp)
-        }
+private fun closeDrawer(
+    coroutineScope: CoroutineScope,
+    drawerState: DrawerState
+) {
+    coroutineScope.launch {
+        drawerState.close()
     }
 }

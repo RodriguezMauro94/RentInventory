@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">RentInventoryApp</string>
+    <string name="menu">Menu</string>
+    <string name="add_item">Add item</string>
+    <string name="state_in_use">In Use</string>
+    <string name="state_stock">Stock</string>
+    <string name="state_wasted">Wasted Items</string>
 </resources>
