@@ -1,11 +1,18 @@
 package com.maurosergiorodriguez.rentinventoryapp.inventorylist
 
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.Card
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -21,9 +28,11 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.maurosergiorodriguez.rentinventoryapp.inventorylist.ui.ItemModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,6 +40,13 @@ import kotlinx.coroutines.launch
 fun InventoryListScreen() {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
+    val items = listOf(
+        ItemModel(title = "Item 1", brand = "ACME"),
+        ItemModel(title = "Item 2", brand = "ACME"),
+        ItemModel(title = "Item 3", brand = "ACME"),
+        ItemModel(title = "Item 4", brand = "ACME"),
+        ItemModel(title = "Item 5", brand = "ACME"),
+    )
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -96,14 +112,39 @@ fun InventoryListScreen() {
                 )
             },
             floatingActionButton = {
-                FloatingActionButton (onClick = {
+                FloatingActionButton(onClick = {
                     //TODO goto add item screen
                 }) {
                     Icon(imageVector = Icons.Filled.Add, contentDescription = "Add Item")
                 }
             }
         ) { padding ->
-            //TODO inventory list
+            LazyColumn {
+                items(items, key = { it.id }) { item ->
+                    ItemCard(item)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ItemCard(item: ItemModel) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp, vertical = 8.dp)
+            .pointerInput(Unit) {
+                detectTapGestures(onLongPress = {
+                    //TODO show edit/remove dialog
+                })
+            }
+    ) {
+        Column(
+            modifier = Modifier.padding(8.dp)
+        ) {
+            Text(text = item.title, fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
+            Text(text = item.brand, fontSize = 12.sp)
         }
     }
 }

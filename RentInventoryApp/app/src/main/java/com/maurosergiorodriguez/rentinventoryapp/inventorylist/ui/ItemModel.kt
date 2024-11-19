@@ -1,7 +1,9 @@
 package com.maurosergiorodriguez.rentinventoryapp.inventorylist.ui
 
+import java.util.UUID
+
 data class ItemModel(
-    val id: Int = System.currentTimeMillis().hashCode(),
+    val id: String = UUID.randomUUID().toString(),
     val title: String,
     val description: String? = "",
     val photo: String? = "",
