@@ -5,6 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.maurosergiorodriguez.rentinventoryapp.inventorylist.ui.InventoryListScreen
 import com.maurosergiorodriguez.rentinventoryapp.inventorylist.ui.viewmodel.InventoryListViewModel
 import com.maurosergiorodriguez.rentinventoryapp.ui.theme.RentInventoryAppTheme
@@ -19,7 +22,16 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             RentInventoryAppTheme {
-                InventoryListScreen(inventoryListViewModel)
+                val navigationController = rememberNavController()
+
+                NavHost(
+                    navController = navigationController,
+                    startDestination = RentInventoryRoutes.InventoryList.route
+                ) {
+                    composable(route = RentInventoryRoutes.InventoryList.route) {
+                        InventoryListScreen(inventoryListViewModel)
+                    }
+                }
             }
         }
     }
