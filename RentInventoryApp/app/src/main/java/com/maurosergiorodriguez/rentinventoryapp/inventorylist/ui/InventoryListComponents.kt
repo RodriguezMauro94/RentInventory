@@ -49,4 +49,3 @@ fun DrawerItem(name: String, onDrawerItemClicked: () -> Unit) {
         )
     }
 }
-

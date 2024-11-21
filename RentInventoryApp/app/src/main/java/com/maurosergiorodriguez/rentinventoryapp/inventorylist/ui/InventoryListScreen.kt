@@ -21,27 +21,37 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.repeatOnLifecycle
 import com.maurosergiorodriguez.rentinventoryapp.R
-import com.maurosergiorodriguez.rentinventoryapp.inventorylist.ui.model.ItemModel
+import com.maurosergiorodriguez.rentinventoryapp.inventorylist.ui.viewmodel.InventoryListViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InventoryListScreen() {
+fun InventoryListScreen(inventoryListViewModel: InventoryListViewModel) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
-    val items = listOf(
-        ItemModel(title = "Item 1", brand = "ACME"),
-        ItemModel(title = "Item 2", brand = "ACME"),
-        ItemModel(title = "Item 3", brand = "ACME"),
-        ItemModel(title = "Item 4", brand = "ACME"),
-        ItemModel(title = "Item 5", brand = "ACME"),
-    )
+    val lifecycle = LocalLifecycleOwner.current.lifecycle
+    val inventoryListUiState by produceState<InventoryListUiState>(
+        initialValue = InventoryListUiState.Loading,
+        key1 = lifecycle,
+        key2 = inventoryListViewModel
+    ) {
+        lifecycle.repeatOnLifecycle(state = Lifecycle.State.STARTED) {
+            inventoryListViewModel.uiInventoryList.collect {
+                    value = it
+            }
+        }
+    }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -83,7 +93,10 @@ fun InventoryListScreen() {
                                 drawerState.open()
                             }
                         }) {
-                            Icon(imageVector = Icons.Filled.Menu, contentDescription = stringResource(R.string.menu))
+                            Icon(
+                                imageVector = Icons.Filled.Menu,
+                                contentDescription = stringResource(R.string.menu)
+                            )
                         }
                     }
                 )
@@ -92,13 +105,30 @@ fun InventoryListScreen() {
                 FloatingActionButton(onClick = {
                     //TODO goto add item screen
                 }) {
-                    Icon(imageVector = Icons.Filled.Add, contentDescription = stringResource(R.string.add_item))
+                    Icon(
+                        imageVector = Icons.Filled.Add,
+                        contentDescription = stringResource(R.string.add_item)
+                    )
                 }
             }
         ) { padding ->
-            LazyColumn {
-                items(items, key = { it.id }) { item ->
-                    ItemCard(item)
+
+            when(inventoryListUiState) {
+                is InventoryListUiState.Error -> {
+                    //TODO show a retry
+                }
+                InventoryListUiState.Loading -> {
+                    //TODO show a loading
+                }
+                is InventoryListUiState.Success -> {
+                    val items = (inventoryListUiState as InventoryListUiState.Success).items
+                    LazyColumn(
+                        modifier = Modifier.padding(padding)
+                    ) {
+                        items(items, key = { it.id }) { item ->
+                            ItemCard(item)
+                        }
+                    }
                 }
             }
         }
