@@ -1,7 +1,7 @@
-package com.maurosergiorodriguez.rentinventoryapp.inventorylist.data
+package com.maurosergiorodriguez.rentinventoryapp.data
 
-import com.maurosergiorodriguez.rentinventoryapp.inventorylist.ui.model.ItemModel
-import com.maurosergiorodriguez.rentinventoryapp.inventorylist.ui.model.toItemStatus
+import com.maurosergiorodriguez.rentinventoryapp.model.ItemModel
+import com.maurosergiorodriguez.rentinventoryapp.model.toItemStatus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

@@ -2,7 +2,7 @@ package com.maurosergiorodriguez.rentinventoryapp
 
 import android.content.Context
 import androidx.room.Room
-import com.maurosergiorodriguez.rentinventoryapp.inventorylist.data.ItemDAO
+import com.maurosergiorodriguez.rentinventoryapp.data.ItemDAO
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

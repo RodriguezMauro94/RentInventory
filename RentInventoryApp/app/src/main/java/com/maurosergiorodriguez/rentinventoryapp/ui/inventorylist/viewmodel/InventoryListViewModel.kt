@@ -1,10 +1,10 @@
-package com.maurosergiorodriguez.rentinventoryapp.inventorylist.ui.viewmodel
+package com.maurosergiorodriguez.rentinventoryapp.ui.inventorylist.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.maurosergiorodriguez.rentinventoryapp.inventorylist.domain.GetInventoryListUseCase
-import com.maurosergiorodriguez.rentinventoryapp.inventorylist.ui.InventoryListUiState
-import com.maurosergiorodriguez.rentinventoryapp.inventorylist.ui.InventoryListUiState.*
+import com.maurosergiorodriguez.rentinventoryapp.domain.GetInventoryListUseCase
+import com.maurosergiorodriguez.rentinventoryapp.ui.inventorylist.InventoryListUiState
+import com.maurosergiorodriguez.rentinventoryapp.ui.inventorylist.InventoryListUiState.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

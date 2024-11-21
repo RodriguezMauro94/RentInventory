@@ -1,6 +1,6 @@
-package com.maurosergiorodriguez.rentinventoryapp.inventorylist.ui
+package com.maurosergiorodriguez.rentinventoryapp.ui.inventorylist
 
-import com.maurosergiorodriguez.rentinventoryapp.inventorylist.ui.model.ItemModel
+import com.maurosergiorodriguez.rentinventoryapp.model.ItemModel
 
 sealed interface InventoryListUiState {
     data object Loading : InventoryListUiState

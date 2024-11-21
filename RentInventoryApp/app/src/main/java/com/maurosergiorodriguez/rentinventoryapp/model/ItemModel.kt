@@ -1,4 +1,4 @@
-package com.maurosergiorodriguez.rentinventoryapp.inventorylist.ui.model
+package com.maurosergiorodriguez.rentinventoryapp.model
 
 import java.util.UUID
 

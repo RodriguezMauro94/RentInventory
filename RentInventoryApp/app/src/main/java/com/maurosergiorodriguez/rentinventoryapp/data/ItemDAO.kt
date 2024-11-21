@@ -1,4 +1,4 @@
-package com.maurosergiorodriguez.rentinventoryapp.inventorylist.data
+package com.maurosergiorodriguez.rentinventoryapp.data
 
 import androidx.room.Dao
 import androidx.room.Query

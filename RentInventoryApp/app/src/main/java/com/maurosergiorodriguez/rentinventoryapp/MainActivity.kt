@@ -8,8 +8,8 @@ import androidx.activity.viewModels
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.maurosergiorodriguez.rentinventoryapp.inventorylist.ui.InventoryListScreen
-import com.maurosergiorodriguez.rentinventoryapp.inventorylist.ui.viewmodel.InventoryListViewModel
+import com.maurosergiorodriguez.rentinventoryapp.ui.inventorylist.InventoryListScreen
+import com.maurosergiorodriguez.rentinventoryapp.ui.inventorylist.viewmodel.InventoryListViewModel
 import com.maurosergiorodriguez.rentinventoryapp.ui.theme.RentInventoryAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -1,4 +1,4 @@
-package com.maurosergiorodriguez.rentinventoryapp.inventorylist.ui
+package com.maurosergiorodriguez.rentinventoryapp.ui.inventorylist
 
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
@@ -13,7 +13,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.maurosergiorodriguez.rentinventoryapp.inventorylist.ui.model.ItemModel
+import com.maurosergiorodriguez.rentinventoryapp.model.ItemModel
 
 @Composable
 fun ItemCard(item: ItemModel) {

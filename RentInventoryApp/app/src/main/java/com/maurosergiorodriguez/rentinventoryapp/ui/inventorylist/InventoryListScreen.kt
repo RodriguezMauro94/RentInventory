@@ -1,4 +1,4 @@
-package com.maurosergiorodriguez.rentinventoryapp.inventorylist.ui
+package com.maurosergiorodriguez.rentinventoryapp.ui.inventorylist
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -31,7 +31,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.repeatOnLifecycle
 import com.maurosergiorodriguez.rentinventoryapp.R
-import com.maurosergiorodriguez.rentinventoryapp.inventorylist.ui.viewmodel.InventoryListViewModel
+import com.maurosergiorodriguez.rentinventoryapp.ui.inventorylist.viewmodel.InventoryListViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
