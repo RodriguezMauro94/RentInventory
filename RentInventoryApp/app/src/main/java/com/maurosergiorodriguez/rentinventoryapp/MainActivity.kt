@@ -4,44 +4,39 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.activity.viewModels
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.maurosergiorodriguez.rentinventoryapp.ui.additem.EditItemScreen
+import com.maurosergiorodriguez.rentinventoryapp.ui.inventorylist.InventoryListScreen
+import com.maurosergiorodriguez.rentinventoryapp.ui.inventorylist.viewmodel.InventoryListViewModel
 import com.maurosergiorodriguez.rentinventoryapp.ui.theme.RentInventoryAppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private val inventoryListViewModel: InventoryListViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             RentInventoryAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                val navController = rememberNavController()
+
+                NavHost(
+                    navController = navController,
+                    startDestination = RentInventoryRoutes.InventoryList.route
+                ) {
+                    composable(route = RentInventoryRoutes.InventoryList.route) {
+                        InventoryListScreen(inventoryListViewModel, navController)
+                    }
+                    composable(route = RentInventoryRoutes.EditItem.route) {
+                        EditItemScreen()
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    RentInventoryAppTheme {
-        Greeting("Android")
     }
 }
