@@ -30,14 +30,16 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavController
 import com.maurosergiorodriguez.rentinventoryapp.R
+import com.maurosergiorodriguez.rentinventoryapp.RentInventoryRoutes
 import com.maurosergiorodriguez.rentinventoryapp.ui.inventorylist.viewmodel.InventoryListViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InventoryListScreen(inventoryListViewModel: InventoryListViewModel) {
+fun InventoryListScreen(inventoryListViewModel: InventoryListViewModel, navController: NavController) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
     val lifecycle = LocalLifecycleOwner.current.lifecycle
@@ -103,7 +105,7 @@ fun InventoryListScreen(inventoryListViewModel: InventoryListViewModel) {
             },
             floatingActionButton = {
                 FloatingActionButton(onClick = {
-                    //TODO goto add item screen
+                    navController.navigate(RentInventoryRoutes.EditItem.route)
                 }) {
                     Icon(
                         imageVector = Icons.Filled.Add,
