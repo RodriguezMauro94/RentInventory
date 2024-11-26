@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.sp
 import com.maurosergiorodriguez.rentinventoryapp.model.ItemModel
 
 @Composable
-fun ItemCard(item: ItemModel) {
+fun ItemCard(item: ItemModel, onEdit: (ItemModel) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -24,6 +24,8 @@ fun ItemCard(item: ItemModel) {
             .pointerInput(Unit) {
                 detectTapGestures(onLongPress = {
                     //TODO show edit/remove dialog
+                }, onTap = {
+                    onEdit(item)
                 })
             }
     ) {

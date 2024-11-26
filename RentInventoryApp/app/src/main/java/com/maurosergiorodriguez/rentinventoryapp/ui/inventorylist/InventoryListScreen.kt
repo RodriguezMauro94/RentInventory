@@ -105,7 +105,7 @@ fun InventoryListScreen(inventoryListViewModel: InventoryListViewModel, navContr
             },
             floatingActionButton = {
                 FloatingActionButton(onClick = {
-                    navController.navigate(RentInventoryRoutes.EditItem.route)
+                    navController.navigate(RentInventoryRoutes.AddItem.route)
                 }) {
                     Icon(
                         imageVector = Icons.Filled.Add,
@@ -114,7 +114,6 @@ fun InventoryListScreen(inventoryListViewModel: InventoryListViewModel, navContr
                 }
             }
         ) { padding ->
-
             when(inventoryListUiState) {
                 is InventoryListUiState.Error -> {
                     //TODO show a retry
@@ -128,7 +127,9 @@ fun InventoryListScreen(inventoryListViewModel: InventoryListViewModel, navContr
                         modifier = Modifier.padding(padding)
                     ) {
                         items(items, key = { it.id }) { item ->
-                            ItemCard(item)
+                            ItemCard(item, onEdit = {
+                                navController.navigate(RentInventoryRoutes.EditItem.route)
+                            })
                         }
                     }
                 }

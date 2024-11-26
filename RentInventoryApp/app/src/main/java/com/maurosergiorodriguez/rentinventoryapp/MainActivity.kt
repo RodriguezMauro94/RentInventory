@@ -8,7 +8,7 @@ import androidx.activity.viewModels
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.maurosergiorodriguez.rentinventoryapp.ui.additem.EditItemScreen
+import com.maurosergiorodriguez.rentinventoryapp.ui.additem.AddItemScreen
 import com.maurosergiorodriguez.rentinventoryapp.ui.inventorylist.InventoryListScreen
 import com.maurosergiorodriguez.rentinventoryapp.ui.inventorylist.viewmodel.InventoryListViewModel
 import com.maurosergiorodriguez.rentinventoryapp.ui.theme.RentInventoryAppTheme
@@ -32,8 +32,8 @@ class MainActivity : ComponentActivity() {
                     composable(route = RentInventoryRoutes.InventoryList.route) {
                         InventoryListScreen(inventoryListViewModel, navController)
                     }
-                    composable(route = RentInventoryRoutes.EditItem.route) {
-                        EditItemScreen()
+                    composable(route = RentInventoryRoutes.AddItem.route) {
+                        AddItemScreen(navController)
                     }
                 }
             }
