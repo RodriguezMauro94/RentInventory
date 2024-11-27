@@ -12,5 +12,5 @@ data class ItemEntity(
     val photo: String? = "",
     val price: Double? = 0.0,
     val brand: String,
-    val status: String
+    val status: Char
 )

@@ -1,5 +1,10 @@
 package com.maurosergiorodriguez.rentinventoryapp.model
 
+import com.maurosergiorodriguez.rentinventoryapp.data.ItemEntity
+import com.maurosergiorodriguez.rentinventoryapp.model.ItemStatus.Dirty
+import com.maurosergiorodriguez.rentinventoryapp.model.ItemStatus.InUse
+import com.maurosergiorodriguez.rentinventoryapp.model.ItemStatus.Stock
+import com.maurosergiorodriguez.rentinventoryapp.model.ItemStatus.Wasted
 import java.util.UUID
 
 data class ItemModel(
@@ -9,31 +14,35 @@ data class ItemModel(
     val photo: String? = "",
     val price: Double? = 0.0,
     val brand: String,
-    val status: ItemStatus = ItemStatus.Stock
+    val status: ItemStatus = Stock
 )
 
-sealed interface ItemStatus {
-    data object Stock: ItemStatus
-    data object InUse: ItemStatus
-    data object Dirty: ItemStatus
-    data object Wasted: ItemStatus
+enum class ItemStatus(
+    val value: String,
+    val key: Char
+) {
+    Stock("Stock", 'S'),
+    InUse("In Use", 'I'),
+    Dirty("Dirty", 'D'),
+    Wasted("Wasted", 'W'),
 }
 
-fun ItemStatus.toString(): String {
-    return when (this) {
-        ItemStatus.Dirty -> "D"
-        ItemStatus.InUse -> "I"
-        ItemStatus.Stock -> "S"
-        ItemStatus.Wasted -> "W"
-    }
-}
-
-fun String.toItemStatus(): ItemStatus {
+fun Char.toItemStatus(): ItemStatus {
     return when(this) {
-        "D" -> ItemStatus.Dirty
-        "I" -> ItemStatus.InUse
-        "S" -> ItemStatus.Stock
-        "W" -> ItemStatus.Wasted
+        'S' -> Stock
+        'I' -> InUse
+        'D' -> Dirty
+        'W' -> Wasted
         else -> throw TypeCastException()
     }
+}
+
+fun ItemModel.toData(): ItemEntity {
+    return ItemEntity(
+        id = id,
+        title = title,
+        description = description,
+        brand = brand,
+        status = status.key
+    )
 }

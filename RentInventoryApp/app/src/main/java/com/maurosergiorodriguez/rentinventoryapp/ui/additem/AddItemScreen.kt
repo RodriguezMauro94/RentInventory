@@ -21,22 +21,26 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.maurosergiorodriguez.rentinventoryapp.model.ItemStatus
+import com.maurosergiorodriguez.rentinventoryapp.ui.additem.viewmodel.AddItemViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddItemScreen(navController: NavController) {
-    var title by remember {
-        mutableStateOf("")
-    }
+fun AddItemScreen(addItemViewModel: AddItemViewModel, navController: NavController) {
+    var title by remember { mutableStateOf("") }
+    var description by remember { mutableStateOf("") }
+    var brand by remember { mutableStateOf("") }
+    var price by remember { mutableDoubleStateOf(0.0) }
+    var status by remember { mutableStateOf(ItemStatus.Stock) }
     Column {
         TopAppBar(
             title = {
@@ -51,31 +55,39 @@ fun AddItemScreen(navController: NavController) {
             }
         )
         Column(
-            modifier = Modifier.padding( horizontal =  18.dp)
+            modifier = Modifier.padding(horizontal = 18.dp)
         ) {
-            ItemTextView("Title") {
+            ItemTextView(value = title, placeHolder = "Title") {
                 title = it
             }
-            ItemTextView("Description", optional = true) {
-                title = it
+            ItemTextView(value = description, placeHolder = "Description", optional = true) {
+                description = it
             }
-            ItemTextView("Brand") {
-                title = it
+            ItemTextView(value = brand, placeHolder = "Brand") {
+                brand = it
             }
-            ItemTextView(
-                text = "Price",
+            ItemTextView(value = price.toString(),
+                placeHolder = "Price",
                 optional = true,
                 keyboardType = KeyboardType.Number
             ) {
-                title = it
+                price = it.toDouble()
             }
-            StatusCombo()
+            StatusCombo(status) {
+                status = it
+            }
 
             Spacer(modifier = Modifier.size(20.dp))
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
-
+                    addItemViewModel.add(
+                        title,
+                        description,
+                        brand,
+                        price,
+                        status
+                    )
                 }
             ) {
                 Text("Confirm")
@@ -85,10 +97,10 @@ fun AddItemScreen(navController: NavController) {
 }
 
 @Composable
-fun StatusCombo(default: String = "Stock") {
-    val statusList = listOf("Stock", "In Use", "Dirty", "Broken/Missing")
+fun StatusCombo(initialValue: ItemStatus, onValueChanged: (ItemStatus) -> Unit) {
+    val statusList = ItemStatus.entries
     var selectedTitle by rememberSaveable {
-        mutableStateOf(default)
+        mutableStateOf(initialValue)
     }
     var expanded by rememberSaveable {
         mutableStateOf(false)
@@ -98,9 +110,10 @@ fun StatusCombo(default: String = "Stock") {
         modifier = Modifier.fillMaxWidth()
     ) {
         OutlinedTextField(
-            value = selectedTitle,
+            value = selectedTitle.value,
             onValueChange = {
-                selectedTitle = it
+                selectedTitle = ItemStatus.valueOf(it)
+                onValueChanged(selectedTitle)
             },
             enabled = false,
             readOnly = true,
@@ -117,11 +130,11 @@ fun StatusCombo(default: String = "Stock") {
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            statusList.forEach {
+            statusList.forEach { status ->
                 DropdownMenuItem(text = {
-                    Text(it)
+                    Text(status.value)
                 }, onClick = {
-                    selectedTitle = it
+                    selectedTitle = status
                     expanded = false
                 })
             }
@@ -131,18 +144,23 @@ fun StatusCombo(default: String = "Stock") {
 }
 
 @Composable
-private fun ItemTextView(text: String, optional: Boolean = false, keyboardType: KeyboardType = KeyboardType.Text, onValueChanged: (String) -> Unit) {
-    var myTask by remember { mutableStateOf("") }
+private fun ItemTextView(
+    value: String = "",
+    placeHolder: String,
+    optional: Boolean = false,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    onValueChanged: (String) -> Unit
+) {
     TextField(
-        value = myTask,
+        value = value,
         onValueChange = {
-            myTask = it
+            onValueChanged(it)
         },
         placeholder = {
             if (optional) {
-                Text("(Optional) $text")
+                Text("(Optional) $placeHolder")
             } else {
-                Text(text)
+                Text(placeHolder)
             }
         },
         modifier = Modifier.fillMaxWidth(),
